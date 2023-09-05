@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>정규표현식</title>
+</head>
+<body>
+    <script>
+        //정규 표현식(regular expression)이란?
+            //정규 표현식(regular expression)은 "문자열에서 특정한 규칙을 가지는 문자열의 집합을 찾아내거나 
+            //또는 특정한 규칙과 문자열을 비교"하기 위한 "검색 패턴"입니다.
+            //이러한 검색 패턴은 모든 종류의 문자열 "검색이나 교체" 등의 작업에서 사용할 수 있습니다.
+    
+            //자바스크립트에서 정규 표현식을 만드는 방법은 다음과 같습니다.
+            //1. 정규 표현식 리터럴을 이용한 생성
+            //2. RegExp 객체를 이용한 생성: 뒤에서 설명합니다.
+            //
+            //정규 표현식 리터럴을 이용한 RegExp 객체를 생성 문법
+            //              /검색패턴/           <== 정규 표현식 리터럴은 슬래시(/) 기호로 시작하여, 슬래시(/) 기호로 끝납니다.
+            //              /검색패턴/검색플래그
+            // 검색패턴에는 이 션센에서의 실습 외에 다음섹션에서 추가적으로 배우는 여러 기호를 사용합니다.
+            // 필요에 따라 플래그를 추가하여 기본 검색 설정을 변경할 수도 있습니다.
+            // 검색플래그(flag)              설명
+            //   i                검색 패턴을 비교할 때 대소문자를 구분하지 않도록 설정함. 
+            //   g                검색 패턴을 비교할 때 일치하는 모든 부분을 선택하도록 설정함. global약자
+            //   m                검색 패턴을 비교할 때 여러 줄의 입력 문자열을 그 상태 그대로 여러 줄로 비교하도록 설정함.
+            //   y                대상 문자열의 현재 위치부터 비교를 시작하도록 설정함.
+    
+            //1. 정규 표현식 리터럴을 이용한 생성 문법
+            var regExp1 = /abc/; //문자열에 "abc" 문자열이 포함되어 있어야 합니다.
+    
+            var myStr1 = "ABCabcadc" ;
+            var myStr2 = "adcababac" ;
+            //정규표현식객체.test("비교문자열") 또는 /패턴/.test("비교문자열")
+            //문자열이 정규표현식 패턴에 적합하면,  true
+            //문자열이 정규표현식 패턴에 부적합하면,  false
+            document.write("비교: " + regExp1.test(myStr1) + "<br>") ; //true
+            document.write("비교: " + regExp1.test(myStr2) + "<hr>") ; //false
+    
+            //함수 내에서 아래의  if 문 형식을 많이 사용함
+            if(!regExp1.test(myStr1)){
+                alter("암호를 다시 입력하세요.!!!") ;
+                //return ;
+    
+            }
+    
+            
+        //정규표현식에 사용되는 기호들(/와 / 사이에 사용되는 기호들)   //소문자가 기능 대문자는 소문자 기능을 제외한 나머지 
+        // 특수 문자   설명
+        //     \d      하나의 숫자 문자를 검색함(1234567890). 예, /\d\d\d\d/: 연속된 4 개 숫자 패턴  ,\d는 /[0-9]/와 같음.    d:decimal   
+        //     \D      숫자가 아닌 하나의 문자를 검색함.                                              /[^0-9]/와 같음
+        //     \w      언더스코어(_), 영문자, 숫자 중 하나의 문자 검색함. /[A-Za-z0-9_]/와 같음.
+        //     \W      언더스코어(_), 영문자, 숫자가 아닌 하나의 문자를 검색함. /[^A-Za-z0-9_]/와 같음.
+        //     \s      빈칸, 탭, 줄 바꿈 문자 등의 하나의 공백 문자를 검색함.
+        //     \S      빈칸, 탭, 줄 바꿈 문자 등의 공백 문자가 아닌 하나의 문자를 검색함.
+        //     . (도트): 임의의 한 문자를 의미 
+        //     \b      문자열의 빈칸으로 구분되는 여러 단어 중 패턴이 뒤에 나오는 첫번째 단어에서의 위치를 반환
+        //             /bc\b/    
+        //     \       역슬래시(\) 다음에 일반 문자가 나오면 이스케이프 문자로 해석하고, 특수 문자가 나오면 일반 문자로 해석함.
+    
+        //횟수를 나타내는 정규표현식 기호들
+        //   * : 0 회 이상      예, /ab*/   : a 다음에 b가 0 회 이상 나옴
+        //   + : 1 회 이상      예, /ab+/   : a 다음에 b가 1 회 이상 나옴
+        //   ? : 없거나 1번 있거나  예, /ab?/ : a 다음에 b가 없거나 한 번 있거나
+        //  {n}    : 정확히 n 번 반복   예, /ab{3}/   : a 다음에 b가 3 회 나옴
+        //  {n,}   : 최소 n 번 이상 반복  예, /ab{3,}/   : a 다음에 b가 3 회 이상 나옴
+        //  {n, m} : n 번부터 m 번 반복  예, /ab{3,5}/   : a 다음에 b가 3회 부터 5회 반복
+        
+        // .{8,} : 8글자이상
+    
+        document.write(/.{5,}/.test("홍길-동%") + "<br>") ;     //true
+        document.write(/.{4,}/.test("1 %") + "<br><br>") ;     //false
+        document.write(/\d{4,}/.test("a1234b") + "<br>") ;     //true
+        document.write(/\d{4,}/.test("a123b") + "<br><br>") ;  //false
+        document.write(/\w{4,}/.test("abcd") + "<br>") ;       //true
+        document.write(/\w{4,}/.test("ab_d") + "<br>") ;       //true
+        document.write(/\w{4,}/.test("aA d") + "<br>") ;       //false
+        document.write(/\w{4,}/.test("ab#d") + "<br>") ;       //false
+        document.write(/\w{4,}/.test("ab.d") + "<br><br>") ;   //false
+        document.write(/\s{2,}/.test("a cd") + "<br>") ;       //false
+        document.write(/\s{2,}/.test("a  d") + "<br>") ;       //true
+        document.write(/\s{2,}/.test("a \nd") + "<br><br>") ;  //true
+    
+    
+        //  [ ]: [] 내에 명시된 문자중 한 글자 
+        //    예> /[adf]/   : 문자열에 a 또는 d 또는 f 중 한 문자 
+        //        /[abcdef]/: a~f까지 문자 중 하나, /[a-f]/와 동일
+        //  [] 사용 시 주의 사항
+        //  - [] 안에서 () 및 . 은 문자로서 사용됩니다. 
+        
+                //   /[a-z]/ 영문소문자 중 하나
+                //   /[A-Z]/ 영문대문자 중 하나
+                //   /[0-9]/ 숫자 중 하나 : /\d/ 와 동일
+                //   /[A-Za-z]/ 영문대소문자 중 하나
+        //        
+        //        비교: /abc/ : 문자열에 abc 가 포함되어야 함
+        //  ( ): 하나의 단위로 취급되는 패턴을 묶어줌  
+        //    예1) /(ab)+/   : ab 가 1 회 이상 나옴
+        //    예2) /(\d\w)+/ : 숫자 하나 다음에 "영문대/소문자/숫자/_" 중 하나가 1 회 이상 나옴
+        //           a1_b44_c5Ab
+        document.write(/[acd.\\]/.test("tyu,") + "<br>" ) ;  //false
+        // 위에서 [] 안에 도트(.)는 임의의 한 문자가 아니라 문자 토트로 사용됨
+        // a 또는 c 또는 d  또는 .  또는 \ 문자 중 하나가 존재하는 패턴 
+        document.write(/[acd.\\]/.test("ayu,") + "<br>" ) ;  //true
+        document.write(/[acd.\\]/.test("tyd,") + "<br>" ) ;  //true
+        document.write(/[acd.\\]/.test("tyc,") + "<br>" ) ;  //true
+        document.write(/[acd.\\]/.test("tyu\\") + "<br>" ) ;  //true   
+        document.write(/[a(cd).\\]/.test("ctyu") + "<br><br>" ) ;  //true
+    
+        //[abd]는 (a|b|d) 와 동일
+        //a 또는 cd  또는 .  또는 \ : /(a|cd|\.|\\)/
+        document.write(/(a|cd|\.|\\)/.test("cbd") + "<br>" ) ;  //false
+        document.write(/(a|(cd)|\.|\\)/.test("ttcdo") + "<br>" ) ;  //true
+        document.write(/(a|cd|\.|\\)/.test(".yyy") + "<br>" ) ;  //true
+        document.write(/(a|cd|\.|\\)/.test("ka") + "<br>" ) ;  //true    
+        document.write(/(a|cd|\.|\\)/.test("oyu\\") + "<br><br>" ) ;  //true
+        
+    // 시작과 끝
+        // ^ 기호: [ ] 밖에서 사용되면, 시작된다는 의미
+        //         [ ] 안에서 사용되면, 부정의 의미로 사용됨
+        // $ 기호: 끝나는 의미
+                //  /^(abc)/  : 문자열이 abc로 시작해야 함
+                //  /(abc)$/  : 문자열이 abc로 끝나야 함
+                //  /[^A-Za-z]/ 영문대소문자가 아닌 문자 중 하나로 시작해야 함
+                //  /^[^0-9]/ : 숫자가 아닌 문자 중 하나로 시작해야 함
+                //  /[^A-Za-z]$/ 영문대소문자가 아닌 문자 중 하나로 끝나야 함
+                //  /[^0-9]$/    숫자가 아닌 문자 중 하나로 끝나야 함
+    
+        document.write(/^(abc)/.test("acdefgh") + "<br>" ) ;  //false
+        document.write(/^(abc)/.test("abcefgh") + "<br>" ) ;  //true
+        document.write(/^(abc)/.test("acdabcgh") + "<br>" ) ; //false
+        document.write(/^abc/.test("acdeabcfgh") + "<br>" ) ;    //false
+        document.write(/^abc/.test("abcefgh") + "<br>" ) ;    //true
+        document.write(/abc$/.test("abcefgh") + "<br>" ) ;    //false
+        document.write(/abc$/.test("abcefghc") + "<br>" ) ;   //false
+        document.write(/abc$/.test("abcefghabc") + "<br>" ) ; //true
+        document.write(/^abc$/.test("abcabc") + "<br>" ) ; //false
+        document.write(/^abc$/.test("abc") + "<br><br>" ) ; //true
+        document.write(/^(abc)(.*)(abc)$/.test("abckkkkabc") + "<br>" ) ; //true
+        document.write(/^(abc)(.*)(abc)$/.test("abcabc") + "<br>" ) ; //true
+        document.write(/^(abc)(.*)(abc)$/.test("abckac") + "<br><br>" ) ; //false
+        //정규표현식에서 OR의 기능을 하는 기호: |
+        // ==> | 기호는 반드시 (  )에서 사용해야 합니다.
+        document.write(/(a|b)c$/.test("abcefghadc") + "<br>" ) ;
+        document.write(/(a|b)c$/.test("abcefghac") + "<br>" ) ;
+        document.write(/(a|b)c$/.test("abcefghbc") + "<br>" ) ;
+        document.write(/(a|b|f)c$/.test("abcefghfc") + "<br>" ) ;
+        document.write(/[ab]c$/.test("abcefghbc") + "<br><br>" ) ;
+    
+        // [  ] 내에서 ^ 의 의미는 시작의 의미가 아니고, "가 아니다"라는 부정의 의미로 사용됩니다.
+        document.write(/[^\d]/.test("abcefghbc") + "<br>" ) ;  //문자열안에 숫자가 아닌 문자가 하나가 있으면 OK
+        document.write(/[^0-9]/.test("12") + "<br>" ) ;   //false
+        document.write(/[^0-9]/.test("ab12fghbc") + "<br>" ) ; //true
+        document.write(/^\d/.test("abc12fgh4c") + "<br>" ) ;   //false
+        document.write(/^\d/.test("4abc12fgh4c") + "<br>" ) ;  //true
+            
+            
+    
+    
+    </script>
+</body>
+</html>
